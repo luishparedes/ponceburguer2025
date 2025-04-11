@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PONCE BURGUER - Sistema de Ventas</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="login-screen" class="login-container">
+        <h2>Iniciar Sesión</h2>
+        <div class="form-group">
+            <label for="login-username">Usuario:</label>
+            <input type="text" id="login-username" placeholder="Ingrese su usuario">
+        </div>
+        <div class="form-group">
+            <label for="login-password">Contraseña:</label>
+            <input type="password" id="login-password" placeholder="Ingrese su contraseña">
+        </div>
+        <button id="login-button">Ingresar</button>
+    </div>
+
+    <div id="app" class="hidden">
+        <header>
+            <h1>PONCE BURGUER - Sistema de Ventas</h1>
+            <p id="user-display">Usuario: <span id="current-user"></span> | <a href="#" id="logout-link">Cerrar sesión</a></p>
+        </header>
+
+        <div class="container">
+            <div class="tabs">
+                <div class="tab active" data-tab="products">Productos</div>
+                <div class="tab" data-tab="inventory">Inventario</div>
+                <div class="tab" data-tab="sales">Ventas</div>
+                <div class="tab" data-tab="reports">Reportes</div>
+                <div class="tab" data-tab="currency">Moneda (Tasa)</div>
+            </div>
+
+            <div id="products" class="tab-content active">
+                <h2>Gestión de Productos</h2>
+                <form id="product-form">
+                    <div class="form-group">
+                        <label for="product-name">Nombre del Producto:</label>
+                        <input type="text" id="product-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-cost">Costo (Bs):</label>
+                        <input type="number" id="product-cost" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-units">Unidades Iniciales:</label>
+                        <input type="number" id="product-units" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-utility">Utilidad Deseada (%):</label>
+                        <input type="number" id="product-utility" required>
+                    </div>
+                    <button type="submit">Agregar Producto</button>
+                </form>
+
+                <div id="products-list">
+                    <h3>Lista de Productos</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Nombre</th>
+                                <th>Costo</th>
+                                <th>Utilidad</th>
+                                <th>Precio Venta</th>
+                                <th>Unidades</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="products-table-body">
+                            <!-- Productos se llenarán con JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="inventory" class="tab-content">
+                <h2>Inventario</h2>
+                <div class="form-group">
+                    <label for="inventory-search">Buscar Producto:</label>
+                    <input type="text" id="inventory-search" placeholder="Ingrese código o nombre">
+                </div>
+
+                <div id="inventory-alerts" class="alert alert-warning hidden">
+                    <!-- Alertas de bajo inventario -->
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Nombre</th>
+                            <th>Unidades</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="inventory-table-body">
+                        <!-- Inventario se llenará con JavaScript -->
+                    </tbody>
+                </table>
+
+                <div id="inventory-actions" class="hidden">
+                    <h3>Gestión de Inventario</h3>
+                    <form id="inventory-form">
+                        <div class="form-group">
+                            <label for="inventory-product-code">Código:</label>
+                            <input type="text" id="inventory-product-code" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="inventory-product-name">Nombre:</label>
+                            <input type="text" id="inventory-product-name" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="inventory-action">Acción:</label>
+                            <select id="inventory-action">
+                                <option value="add">Agregar Unidades</option>
+                                <option value="remove">Retirar Unidades</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="inventory-quantity">Cantidad:</label>
+                            <input type="number" id="inventory-quantity" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="inventory-reason">Motivo:</label>
+                            <input type="text" id="inventory-reason" required>
+                        </div>
+                        <button type="submit">Ejecutar Acción</button>
+                    </form>
+                </div>
+            </div>
+
+            <div id="sales" class="tab-content">
+                <h2>Nueva Venta</h2>
+                <div class="form-group">
+                    <label for="sale-search">Buscar Producto:</label>
+                    <input type="text" id="sale-search" placeholder="Ingrese código o nombre">
+                </div>
+
+                <div class="product-grid" id="sale-products-grid">
+                    <!-- Productos para venta se mostrarán aquí -->
+                </div>
+
+                <div class="sale-summary">
+                    <h3>Resumen de Venta</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Precio Unit.</th>
+                                <th>Cantidad</th>
+                                <th>Subtotal</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sale-items">
+                            <!-- Items de la venta -->
+                        </tbody>
+                    </table>
+
+                    <div class="form-group">
+                        <label for="sale-total">Total (Bs):</label>
+                        <input type="text" id="sale-total" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="sale-total-dollars">Total ($):</label>
+                        <input type="text" id="sale-total-dollars" readonly>
+                    </div>
+
+                    <div class="payment-methods">
+                        <div class="payment-method" data-method="cash-dollars">Efectivo $</div>
+                        <div class="payment-method" data-method="cash-bs">Efectivo Bs</div>
+                        <div class="payment-method" data-method="mobile-bs">PagoMóvil Bs</div>
+                        <div class="payment-method" data-method="card-bs">Tarjeta Bs</div>
+                    </div>
+
+                    <button id="complete-sale">Completar Venta</button>
+                </div>
+            </div>
+
+            <div id="reports" class="tab-content">
+                <h2>Reportes de Ventas</h2>
+                <div class="form-group">
+                    <label for="report-date">Filtrar por fecha:</label>
+                    <input type="date" id="report-date">
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>Cajero</th>
+                            <th>Productos</th>
+                            <th>Total Bs</th>
+                            <th>Total $</th>
+                            <th>Método Pago</th>
+                        </tr>
+                    </thead>
+                    <tbody id="reports-table-body">
+                        <!-- Reportes se llenarán con JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="currency" class="tab-content">
+                <h2>Configuración de Moneda</h2>
+                <form id="currency-form">
+                    <div class="form-group">
+                        <label for="exchange-rate">Tasa de Cambio ($1 = Bs):</label>
+                        <input type="number" id="exchange-rate" step="0.01" required>
+                    </div>
+                    <button type="submit">Guardar Tasa</button>
+                </form>
+                <div id="currency-message" class="alert hidden"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
