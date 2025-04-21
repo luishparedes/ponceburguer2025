@@ -5,222 +5,102 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PONCE BURGUER - Sistema de Ventas</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div id="login-screen" class="login-container">
+        <div class="logo">
+            <i class="fas fa-hamburger"></i>
+            <h1>PONCE BURGUER</h1>
+        </div>
         <h2>Iniciar Sesión</h2>
         <div class="form-group">
-            <label for="login-username">Usuario:</label>
+            <label for="login-username"><i class="fas fa-user"></i> Usuario:</label>
             <input type="text" id="login-username" placeholder="Ingrese su usuario">
         </div>
         <div class="form-group">
-            <label for="login-password">Contraseña:</label>
+            <label for="login-password"><i class="fas fa-lock"></i> Contraseña:</label>
             <input type="password" id="login-password" placeholder="Ingrese su contraseña">
         </div>
-        <button id="login-button">Ingresar</button>
+        <button id="login-button"><i class="fas fa-sign-in-alt"></i> Ingresar</button>
     </div>
 
     <div id="app" class="hidden">
         <header>
-            <h1>PONCE BURGUER - Sistema de Ventas</h1>
-            <p id="user-display">Usuario: <span id="current-user"></span> | <a href="#" id="logout-link">Cerrar sesión</a></p>
+            <div class="header-content">
+                <h1><i class="fas fa-hamburger"></i> PONCE BURGUER</h1>
+                <p id="user-display"><i class="fas fa-user-circle"></i> <span id="current-user"></span> | <a href="#" id="logout-link"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a></p>
+            </div>
         </header>
 
         <div class="container">
             <div class="tabs">
-                <div class="tab active" data-tab="products">Productos</div>
-                <div class="tab" data-tab="inventory">Inventario</div>
-                <div class="tab" data-tab="sales">Ventas</div>
-                <div class="tab" data-tab="reports">Reportes</div>
-                <div class="tab" data-tab="currency">Moneda (Tasa)</div>
+                <div class="tab active" data-tab="products"><i class="fas fa-box-open"></i> Productos</div>
+                <div class="tab" data-tab="inventory"><i class="fas fa-clipboard-list"></i> Inventario</div>
+                <div class="tab" data-tab="sales"><i class="fas fa-cash-register"></i> Ventas</div>
+                <div class="tab" data-tab="reports"><i class="fas fa-chart-bar"></i> Reportes</div>
+                <div class="tab" data-tab="currency"><i class="fas fa-exchange-alt"></i> Moneda</div>
+                <div class="tab" data-tab="users" id="users-tab"><i class="fas fa-users"></i> Usuarios</div>
             </div>
 
+            <!-- Contenido de las pestañas -->
             <div id="products" class="tab-content active">
-                <h2>Gestión de Productos</h2>
-                <form id="product-form">
-                    <div class="form-group">
-                        <label for="product-name">Nombre del Producto:</label>
-                        <input type="text" id="product-name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="product-cost">Costo (Bs):</label>
-                        <input type="number" id="product-cost" step="0.01" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="product-units">Unidades Iniciales:</label>
-                        <input type="number" id="product-units" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="product-utility">Utilidad Deseada (%):</label>
-                        <input type="number" id="product-utility" required>
-                    </div>
-                    <button type="submit">Agregar Producto</button>
-                </form>
-
-                <div id="products-list">
-                    <h3>Lista de Productos</h3>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Código</th>
-                                <th>Nombre</th>
-                                <th>Costo</th>
-                                <th>Utilidad</th>
-                                <th>Precio Venta</th>
-                                <th>Unidades</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="products-table-body">
-                            <!-- Productos se llenarán con JavaScript -->
-                        </tbody>
-                    </table>
-                </div>
+                <!-- Contenido de productos -->
             </div>
 
             <div id="inventory" class="tab-content">
-                <h2>Inventario</h2>
-                <div class="form-group">
-                    <label for="inventory-search">Buscar Producto:</label>
-                    <input type="text" id="inventory-search" placeholder="Ingrese código o nombre">
-                </div>
-
-                <div id="inventory-alerts" class="alert alert-warning hidden">
-                    <!-- Alertas de bajo inventario -->
-                </div>
-
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Código</th>
-                            <th>Nombre</th>
-                            <th>Unidades</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody id="inventory-table-body">
-                        <!-- Inventario se llenará con JavaScript -->
-                    </tbody>
-                </table>
-
-                <div id="inventory-actions" class="hidden">
-                    <h3>Gestión de Inventario</h3>
-                    <form id="inventory-form">
-                        <div class="form-group">
-                            <label for="inventory-product-code">Código:</label>
-                            <input type="text" id="inventory-product-code" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label for="inventory-product-name">Nombre:</label>
-                            <input type="text" id="inventory-product-name" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label for="inventory-action">Acción:</label>
-                            <select id="inventory-action">
-                                <option value="add">Agregar Unidades</option>
-                                <option value="remove">Retirar Unidades</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="inventory-quantity">Cantidad:</label>
-                            <input type="number" id="inventory-quantity" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="inventory-reason">Motivo:</label>
-                            <input type="text" id="inventory-reason" required>
-                        </div>
-                        <button type="submit">Ejecutar Acción</button>
-                    </form>
-                </div>
+                <!-- Contenido de inventario -->
             </div>
 
             <div id="sales" class="tab-content">
-                <h2>Nueva Venta</h2>
-                <div class="form-group">
-                    <label for="sale-search">Buscar Producto:</label>
-                    <input type="text" id="sale-search" placeholder="Ingrese código o nombre">
-                </div>
-
-                <div class="product-grid" id="sale-products-grid">
-                    <!-- Productos para venta se mostrarán aquí -->
-                </div>
-
-                <div class="sale-summary">
-                    <h3>Resumen de Venta</h3>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Producto</th>
-                                <th>Precio Unit.</th>
-                                <th>Cantidad</th>
-                                <th>Subtotal</th>
-                                <th>Acción</th>
-                            </tr>
-                        </thead>
-                        <tbody id="sale-items">
-                            <!-- Items de la venta -->
-                        </tbody>
-                    </table>
-
-                    <div class="form-group">
-                        <label for="sale-total">Total (Bs):</label>
-                        <input type="text" id="sale-total" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="sale-total-dollars">Total ($):</label>
-                        <input type="text" id="sale-total-dollars" readonly>
-                    </div>
-
-                    <div class="payment-methods">
-                        <div class="payment-method" data-method="cash-dollars">Efectivo $</div>
-                        <div class="payment-method" data-method="cash-bs">Efectivo Bs</div>
-                        <div class="payment-method" data-method="mobile-bs">PagoMóvil Bs</div>
-                        <div class="payment-method" data-method="card-bs">Tarjeta Bs</div>
-                    </div>
-
-                    <button id="complete-sale">Completar Venta</button>
-                </div>
+                <!-- Contenido de ventas -->
             </div>
 
             <div id="reports" class="tab-content">
-                <h2>Reportes de Ventas</h2>
-                <div class="form-group">
-                    <label for="report-date">Filtrar por fecha:</label>
-                    <input type="date" id="report-date">
-                </div>
-
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Fecha</th>
-                            <th>Hora</th>
-                            <th>Cajero</th>
-                            <th>Productos</th>
-                            <th>Total Bs</th>
-                            <th>Total $</th>
-                            <th>Método Pago</th>
-                        </tr>
-                    </thead>
-                    <tbody id="reports-table-body">
-                        <!-- Reportes se llenarán con JavaScript -->
-                    </tbody>
-                </table>
+                <!-- Contenido de reportes -->
             </div>
 
             <div id="currency" class="tab-content">
-                <h2>Configuración de Moneda</h2>
-                <form id="currency-form">
-                    <div class="form-group">
-                        <label for="exchange-rate">Tasa de Cambio ($1 = Bs):</label>
-                        <input type="number" id="exchange-rate" step="0.01" required>
-                    </div>
-                    <button type="submit">Guardar Tasa</button>
-                </form>
-                <div id="currency-message" class="alert hidden"></div>
+                <!-- Contenido de moneda -->
+            </div>
+
+            <div id="users" class="tab-content">
+                <!-- Contenido de usuarios -->
+            </div>
+        </div>
+
+        <!-- Notificaciones -->
+        <div id="notification-container"></div>
+
+        <!-- Modal para confirmaciones -->
+        <div id="modal" class="modal hidden">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h3 id="modal-title"></h3>
+                <p id="modal-message"></p>
+                <div class="modal-buttons">
+                    <button id="modal-confirm">Confirmar</button>
+                    <button id="modal-cancel">Cancelar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal para admin password -->
+        <div id="admin-modal" class="modal hidden">
+            <div class="modal-content">
+                <h3>Verificación de Administrador</h3>
+                <p>Ingrese la clave de administrador para continuar:</p>
+                <input type="password" id="admin-password" placeholder="Clave de administrador">
+                <div class="modal-buttons">
+                    <button id="admin-confirm">Verificar</button>
+                    <button id="admin-cancel">Cancelar</button>
+                </div>
             </div>
         </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
